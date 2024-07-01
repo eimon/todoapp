@@ -1,0 +1,12 @@
+version: '3.8'
+
+services:
+  web:
+    build: ./deploy
+    container_name: fastapi_app
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./app:/app  # Monta el directorio actual en /app dentro del contenedor
+    command: >
+      sh -c "uvicorn main:app --host 0.0.0.0 --port 8000 --reload"

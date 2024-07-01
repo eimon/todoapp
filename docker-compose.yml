@@ -1,4 +1,4 @@
-version: '3.8'
+version: '3.1'
 
 services:
   web:
@@ -8,5 +8,22 @@ services:
       - "8000:8000"
     volumes:
       - ./app:/app  # Monta el directorio actual en /app dentro del contenedor
+    environment:
+      - DATABASE_URL=postgresql://postgres:password@db:5432/mydatabase  # Ajusta la URL de conexión según sea necesario
     command: >
       sh -c "uvicorn main:app --host 0.0.0.0 --port 8000 --reload"
+
+  db:
+    image: postgres:latest
+    container_name: postgres_db
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: mydatabase
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:

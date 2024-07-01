@@ -29,7 +29,7 @@ class UserVerification(BaseModel):
 @router.get("/current_user", status_code=status.HTTP_200_OK)
 def get_user(user:user_dependency, db:db_dependency):
     if user is None:
-        raise HTTPException(status_code=201, detail='Autenticación fallida')
+        raise HTTPException(status_code=401, detail='Autenticación fallida')
     return db.query(Users).filter(Users.id==user.get('id')).first()
 
 @router.put("/change_password", status_code=status.HTTP_204_NO_CONTENT)
